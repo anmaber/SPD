@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iterator>
 #include <chrono>
+#include <string>
 
 using TaskFeatures = std::pair<std::vector<int>,std::vector<int>>;
 
@@ -92,6 +93,24 @@ int main()
 {
     TaskFeatures taskFeatures = bindToTaskFeatures(processFile(10,"20tllrd"));
     std::cout << JacksonRule(taskFeatures);
+
+    std::vector<std::string> countOfElems = {"20","50","100","200"};
+    std::vector<int> collumns = {10,10,10,40};
+
+    std::string fileName;
+
+    for(auto i=0u; i < countOfElems.size(); ++i)
+    {
+        for(int j = 0; j < 5; ++j)
+        {
+            std::string post = std::to_string(j);
+            fileName.append(countOfElems.at(i));
+            fileName.append("tllrd");
+            fileName.append(post);
+            std::cout<<fileName<<"\n";
+            fileName.clear();
+        }
+    }
 
     return 0;
 }
