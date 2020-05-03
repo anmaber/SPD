@@ -4,8 +4,36 @@
 #include <utility>
 #include <cstdlib>
 #include <algorithm>
+#include <iterator>
+#include <chrono>
 
 using TaskFeatures = std::pair<std::vector<int>,std::vector<int>>;
+
+
+std::vector<int> processFile(int columns, std::string fileName){
+	std::ifstream file;
+	file.open(fileName);
+	std::istream_iterator<int> start(file), end;
+	std::vector<int> values(start, end);
+
+	std::vector<int> valuesProcessed;
+	for(unsigned int i=0; i<values.size(); ++i){
+		if(i%columns==1)
+			valuesProcessed.push_back(values[i]);
+	}
+
+    // std::cout << "Val::";
+	// std::copy(valuesProcessed.begin(), valuesProcessed.end(),
+	// 	std::ostream_iterator<int>(std::cout, "\n"));
+	return valuesProcessed;
+}
+
+TaskFeatures bindToTaskFeatures(const std::vector<int>& processedFile)
+{
+
+    std::vector<int> availbilityDates(processedFile.size(),0);
+    return {availbilityDates, processedFile};
+}
 
 TaskFeatures fileHandling(const std::string& fileName)
 {
@@ -62,7 +90,7 @@ int JacksonRule(TaskFeatures& taskFeatures)
 
 int main()
 {
-    TaskFeatures taskFeatures = fileHandling("JACK3.DAT");
+    TaskFeatures taskFeatures = bindToTaskFeatures(processFile(10,"20tllrd"));
     std::cout << JacksonRule(taskFeatures);
 
     return 0;
