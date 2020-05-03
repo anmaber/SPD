@@ -91,7 +91,7 @@ int JacksonRule(TaskFeatures& taskFeatures)
 
 int main()
 {
-    TaskFeatures taskFeatures = bindToTaskFeatures(processFile(10,"20tllrd"));
+    TaskFeatures taskFeatures = bindToTaskFeatures(processFile(10,"20tllrd0"));
     std::cout << JacksonRule(taskFeatures);
 
     std::vector<std::string> countOfElems = {"20","50","100","200"};
@@ -107,7 +107,16 @@ int main()
             fileName.append(countOfElems.at(i));
             fileName.append("tllrd");
             fileName.append(post);
-            std::cout<<fileName<<"\n";
+
+            taskFeatures = bindToTaskFeatures(processFile(collumns.at(i),fileName));
+
+            auto start = std::chrono::high_resolution_clock::now();
+            JacksonRule(taskFeatures);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration =std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+            std::cout << fileName << " : " << duration.count() << "\n";
+
             fileName.clear();
         }
     }
